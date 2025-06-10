@@ -1,0 +1,32 @@
+# Ignorar arquivos de ambiente e chaves sensíveis
+.env
+.venv
+
+# Ignorar arquivos e pastas de cache do Python
+__pycache__/
+*.pyc
+
+# Ignorar arquivos de configuração do VSCode
+.vscode/
+
+# Ignorar arquivos de dados temporários
+*.csv~
+*.tmp
+
+# Ignorar arquivos de log
+*.log
+
+# Ignorar arquivos de dependências do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Ignorar arquivos de containers e imagens
+*.tar
+
+# Ignorar arquivos de saída de notebooks
+*.ipynb_checkpoints/
+
+# Ignorar arquivos de build
+build/
+dist/
+*.egg-info/

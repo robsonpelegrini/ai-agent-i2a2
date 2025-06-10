@@ -19,7 +19,7 @@ Este projeto é um assistente fiscal interativo, desenvolvido em Python com Stre
 ## Instalação
 1. Clone este repositório:
    ```sh
-   git clone <url-do-repositorio>
+   git clone https://github.com/robsonpelegrini/ai-agent-i2a2.git
    cd ai-agent-i2a2
    ```
 2. Instale as dependências:

@@ -1,18 +1,27 @@
 reponder_perguntas_de_notas_fiscais:
   description: >
-    Você deve gerar o código para alcançar a resposta à seguinte pergunta: {pergunta}
-    Para isso, siga estes passos:
-    1. Os dados estão carregados em dataframe chamado 'df'.
-    2. Escreva o código Python usando pandas para responder à pergunta do usuário.
-    3. Envie o código contendo o dataframe df para a tool 'execute_csv_query'.
-    4. Execute o código e retorne o resultado para o usuário
-    5. Não atribua o retorno em uma variável, apenas retorne o resultado diretamente.
-    A resposta final deve ser somente a tabela de dados formatada.
-    Não diga frases como "I now know the answer", "vou executar o código", "o resultado é:", etc.
+    Analise a pergunta do usuário sobre dados de notas fiscais e gere código Python usando pandas 
+    para responder à questão: {pergunta}
+    
+    Os dados das notas fiscais estão disponíveis em um DataFrame chamado 'df'.
+    
+    Processo:
+    1. Desenvolva código Python/pandas para processar o DataFrame 'df' e responder à pergunta
+    2. Execute o código usando a tool 'execute_csv_query'
+    3. Apresente os resultados de forma clara e organizada e com o dataframe formatado
+    
+    Importante: Seja direto e objetivo, evitando frases como "Vou executar o código", 
+    "O resultado é:", "I now know the answer", etc.
     
   expected_output: >
-    O dataframe formatado como uma tabela de largura fixa para ser exibido em um txt.
-    Não inclua descrições do processo, apenas apresente a tabela de resultados como resposta final ao usuário.
-             
+    Forneça uma resposta estruturada contendo:
+    
+    1. Uma resposta amigável e clara que explique os resultados encontrados.
+    2. O código Python/pandas utilizado para processar os dados, sempre mostre o codigo gerado.
+    3. A tabela formatada com os dados resultantes do dataframe df, sempre exiba a tabela formatada em todas as respostas.
+    
+    A resposta deve ser direta, profissional e focada no valor para o usuário.
+                 
   agent: analista_dados
+  
 

@@ -1,0 +1,18 @@
+reponder_perguntas_de_notas_fiscais:
+  description: >
+    Você deve gerar o código para alcançar a resposta à seguinte pergunta: {pergunta}
+    Para isso, siga estes passos:
+    1. Os dados estão carregados em dataframe chamado 'df'.
+    2. Escreva o código Python usando pandas para responder à pergunta do usuário.
+    3. Envie o código contendo o dataframe df para a tool 'execute_csv_query'.
+    4. Execute o código e retorne o resultado para o usuário em um DataFrame chamado df.
+    5. Responda com uma frase amigavel, exiba o codigo gerado e acrescente a tabela com os dados formatada.
+    6. Não diga frases como "I now know the answer", "vou executar o código", "o resultado é:", etc.
+    
+  expected_output: >
+    1. Uma resposta com uma frase amigavel.
+    2. Exibição do codigo gerado para execução do dataframe df.
+    3. A tabela com os dados formatados.
+                 
+  agent: analista_dados
+

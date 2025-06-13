@@ -4,7 +4,6 @@ from langchain_anthropic import ChatAnthropic
 from crewai.project import CrewBase, agent, crew, task
 from crewai.tools import tool, BaseTool
 import pandas as pd
-import unicodedata
 from dotenv import load_dotenv
 from tabulate import tabulate
 
@@ -16,6 +15,8 @@ def execute_csv_query(code: str) -> str:
     Executa um código Python usando pandas no arquivo csv carregado.
     O código deve ser uma operação válida sobre um DataFrame chamado df.
     """
+    MAX_LINHAS = 20
+
     try:
         print("Executando código:", code)
         csv_env_path = os.getenv("CSV_FILE_PATH")
@@ -26,10 +27,18 @@ def execute_csv_query(code: str) -> str:
         if not isinstance(result, pd.DataFrame):
             result = pd.DataFrame([[result]], columns=["Resultado"])
             
+        result = result.reset_index()
+
+        if len(result) > MAX_LINHAS:
+            result = result.head(MAX_LINHAS)
+            aviso = f"(Apenas as {MAX_LINHAS} primeiras linhas exibidas)\n"
+        else:
+            aviso = ""
+
         matriz = result.values.tolist()
         tabela = tabulate(matriz, headers=result.columns.tolist(), tablefmt="outline", showindex=False)
 
-        return str(tabela)
+        return aviso + str(tabela)
     except Exception as e:
         raise ValueError(f"Erro ao executar o código: {e}")
 

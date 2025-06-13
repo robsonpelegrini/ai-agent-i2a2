@@ -31,14 +31,13 @@ def execute_csv_query(code: str) -> str:
 
         if len(result) > MAX_LINHAS:
             result = result.head(MAX_LINHAS)
-            aviso = f"(Apenas as {MAX_LINHAS} primeiras linhas exibidas)\n"
         else:
             aviso = ""
 
         matriz = result.values.tolist()
         tabela = tabulate(matriz, headers=result.columns.tolist(), tablefmt="outline", showindex=False)
 
-        return aviso + str(tabela)
+        return str(tabela)
     except Exception as e:
         raise ValueError(f"Erro ao executar o código: {e}")
 

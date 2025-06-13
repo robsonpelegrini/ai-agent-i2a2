@@ -17,15 +17,30 @@ st.title("🧾 NF Assistant - Chat sobre Notas Fiscais")
 
 # Lista arquivos na pasta 'data'
 data_dir = os.path.join(os.path.dirname(__file__), "data")
-file_options = [f for f in os.listdir(data_dir) if os.path.isfile(os.path.join(data_dir, f))]
+
+# Verifica se a pasta existe
+if not os.path.exists(data_dir):
+    st.error(f"Pasta 'data' não encontrada: {data_dir}")
+    st.stop()
+
+# Lista apenas arquivos (não diretórios)
+try:
+    file_options = [f for f in os.listdir(data_dir) if os.path.isfile(os.path.join(data_dir, f))]
+    
+    if not file_options:
+        st.warning("Nenhum arquivo encontrado na pasta 'data'")
+        st.stop()
+        
+except Exception as e:
+    st.error(f"Erro ao listar arquivos: {e}")
+    st.stop()
 
 # Seleção do arquivo pelo usuário como lista de seleção
 selected_file = st.radio("Primeiramente selecione o arquivo de notas fiscais sobre qual você ira fazer suas perguntas:", file_options)
 
 # Guarda o nome do arquivo selecionado na sessão
 st.session_state.selected_file = selected_file
-print(st.session_state.selected_file)
-
+print(f"Arquivo selecionado: {st.session_state.selected_file}")
 
 # --- Exibir histórico de mensagens com st.code para o assistente ---
 for msg in st.session_state.messages:
@@ -35,12 +50,8 @@ for msg in st.session_state.messages:
         else:
             st.markdown(msg["content"])
 
-
 # --- Entrada do usuário ---
 user_prompt = st.chat_input("Digite sua pergunta sobre as notas fiscais...")
-
-
-
 
 # --- Processamento da pergunta ---
 if user_prompt:
@@ -50,14 +61,23 @@ if user_prompt:
         st.markdown(user_prompt)
 
     with st.chat_message("assistant"):
-        with st.spinner(f"⏳ Analisando os dados do arquivo {data_dir}/{selected_file}" ):
+        # Constrói o caminho completo do arquivo corretamente
+        file_path = os.path.join(data_dir, selected_file)
+        
+        with st.spinner(f"⏳ Analisando os dados do arquivo {file_path}"):
             try:
-                print(f"Arquivo selecionado: {data_dir}/{selected_file}")
+                print(f"Caminho completo do arquivo: {file_path}")
                 
-                response = run_nf_assistant(user_prompt, f".{data_dir}/{selected_file}")
+                # Verifica se o arquivo existe antes de processar
+                if not os.path.exists(file_path):
+                    raise FileNotFoundError(f"Arquivo não encontrado: {file_path}")
+                
+                response = run_nf_assistant(user_prompt, file_path)
                 ai_reply = response.raw
+                
             except Exception as e:
                 ai_reply = f"⚠️ Ocorreu um erro ao processar: {e}"
+                
         st.code(ai_reply)
 
     # Salva a resposta no histórico

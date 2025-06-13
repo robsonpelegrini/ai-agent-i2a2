@@ -8,7 +8,9 @@ reponder_perguntas_de_notas_fiscais:
     Processo:
     1. Desenvolva código Python/pandas para processar o DataFrame 'df' e responder à pergunta
     2. Execute o código usando a tool 'execute_csv_query'
-    3. Apresente os resultados de forma clara e organizada e com o dataframe formatado
+    3. Guarde a saida da ferramenta 'execute_csv_query' para ser usada na resposta final
+    4. Apresente os resultados de forma clara e organizada
+    4. Exiba o código gerado e a saida da ferramenta 'execute_csv_query'
     
     Importante: Seja direto e objetivo, evitando frases como "Vou executar o código", 
     "O resultado é:", "I now know the answer", etc.
@@ -18,9 +20,8 @@ reponder_perguntas_de_notas_fiscais:
     
     1. Uma resposta amigável e clara que explique os resultados encontrados.
     2. O código Python/pandas utilizado para processar os dados, sempre mostre o codigo gerado.
-    3. A tabela formatada com os dados resultantes do dataframe df, sempre exiba a tabela formatada em todas as respostas.
+    3. A output  de 'execute_csv_query' que foi armazenado, SEMPRE mostre essa etapa, não a omita.
     
-    A resposta deve ser direta, profissional e focada no valor para o usuário.
                  
   agent: analista_dados
   

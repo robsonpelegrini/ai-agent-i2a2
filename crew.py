@@ -1,6 +1,5 @@
 import os
 from crewai import Agent, Crew, Process, Task, LLM
-from langchain_anthropic import ChatAnthropic
 from crewai.project import CrewBase, agent, crew, task
 from crewai.tools import tool, BaseTool
 import pandas as pd
@@ -10,17 +9,29 @@ from tabulate import tabulate
 load_dotenv()
 
 @tool("Executa comandos pandas sobre o CSV")
-def execute_csv_query(code: str) -> str:
+def execute_csv_query(code: str, csv_name: str = None) -> str:
     """
-    Executa um código Python usando pandas no arquivo csv carregado.
-    O código deve ser uma operação válida sobre um DataFrame chamado df.
+    Executa um código Python usando pandas no arquivo csv especificado.
+    
+    Args:
+        code: O código deve ser uma operação válida sobre um DataFrame chamado df.
+        csv_path: Caminho para o arquivo CSV. Se não fornecido, usa a variável de ambiente CSV_FILE_PATH.
     """
     MAX_LINHAS = 20
 
     try:
         print("Executando código:", code)
-        csv_env_path = os.getenv("CSV_FILE_PATH")
-        df = pd.read_csv(csv_env_path)
+        
+        # Determina o caminho do CSV
+        if csv_name is None:
+            raise ValueError("Caminho do CSV não fornecido e CSV_FILE_PATH não está definido nas variáveis de ambiente")
+        
+        # Verifica se o arquivo existe
+        if not os.path.exists(f"data/{csv_name}"):
+            raise FileNotFoundError(f"Arquivo CSV não encontrado: {csv_name}")
+        
+        print(f"Carregando CSV: {csv_name}")
+        df = pd.read_csv(f"data/{csv_name}")
         df.columns = [col.strip() for col in df.columns]
 
         result = eval(code)
@@ -31,13 +42,15 @@ def execute_csv_query(code: str) -> str:
 
         if len(result) > MAX_LINHAS:
             result = result.head(MAX_LINHAS)
+            aviso = f"\n(Mostrando apenas as primeiras {MAX_LINHAS} linhas de {len(result)} total)"
         else:
             aviso = ""
 
         matriz = result.values.tolist()
         tabela = tabulate(matriz, headers=result.columns.tolist(), tablefmt="outline", showindex=False)
 
-        return str(tabela)
+        return str(tabela) + aviso
+        
     except Exception as e:
         raise ValueError(f"Erro ao executar o código: {e}")
 
@@ -52,7 +65,7 @@ llm = LLM(
 class ComplianceCrew:
     agents_config = "config/agents.yaml"
     tasks_config = "config/tasks.yaml"
-    
+    csv_name = ""
 
     @agent
     def analista_dados(self) -> Agent:
@@ -80,5 +93,4 @@ class ComplianceCrew:
             process=Process.sequential,
             verbose=True
         )
-    
-    
+

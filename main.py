@@ -15,6 +15,7 @@ def run_nf_assistant(question: str, csv_env_path: str):
     pd.set_option('display.colheader_justify', 'center')
     
     df = pd.read_csv(csv_env_path)
+    csv_name = os.path.basename(csv_env_path)
     columns_str = ", ".join(col for col in df.columns)
     
     crew_instance = ComplianceCrew()
@@ -22,7 +23,7 @@ def run_nf_assistant(question: str, csv_env_path: str):
     if not question.strip():
         return "⚠️ Favor entrar com uma pergunta valida."
 
-    result = crew_instance.crew().kickoff(inputs={"pergunta": question, "colunas": columns_str})
+    result = crew_instance.crew().kickoff(inputs={"pergunta": question, "colunas": columns_str,"csv_name": csv_name})
 
     return result
 

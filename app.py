@@ -4,9 +4,6 @@ import os
 
 st.set_page_config(page_title="NF Assistant Chat", layout="wide")
 
-# Debug - mostrar porta
-port = os.getenv('PORT', '8501')
-st.sidebar.write(f"Porta Railway: {port}")
 
 # --- Inicialização do estado da sessão ---
 if "messages" not in st.session_state:
